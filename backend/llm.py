@@ -19,7 +19,7 @@ except ImportError:
 # Do NOT share this file with your key in it.
 # ---------------------------------------------------------------------------
 LLM_PROVIDER = "anthropic"          # "anthropic" or "openai" ("" = whichever key is set)
-ANTHROPIC_API_KEY = "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"     # your Claude key
+ANTHROPIC_API_KEY = ""     # your Claude key
 OPENAI_API_KEY = ""        # your OpenAI key
 OPENAI_BASE_URL = ""       # optional: OpenAI-compatible server (Gemini, Ollama)
 LLM_MODEL = ""             # optional: override the default model
