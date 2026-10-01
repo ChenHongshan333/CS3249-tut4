@@ -1,6 +1,6 @@
-# Tutorial 4 · Student Version 
+# National University of Singapore  · CS3249 · Conversational User Interface · Tutorial 4: Conversation Orchestration
 
-National University of Singapore  · CS3249 · Conversational User Interface · Tutorial 4: Conversation Orchestration
+## Exercise Intro: Pre-consultation Chatbot
 
 In this exercise you turn a chatbot that only talks into one that remembers and decides.
 
@@ -17,10 +17,6 @@ Your job is to add the conversation state (Activity 1) and the routing (Activity
 1. Python 3.10 or newer. Check with python3 --version (macOS/Linux) or python --version (Windows).
 2. LLM API Key 
    - You can apply through : SoCLaaS is SoC’s locally hosted, OpenAI-compatible LLM API service. It provides SoC students with free-of-charge access to open-weight LLM models for learning, coursework, experimentation, prototypes, and development project
-   
-# Tutorial 1 Exercise: Pre-consultation Chatbot
-
-The chatbot already talks through an LLM, but the program **remembers nothing** and **ignores the LLM's decisions**. In pairs, add the **state** (Activity 1) and the **routing** (Activity 2) in `backend/orchestrator.py`.
 
 ## Setup
 
