@@ -18,7 +18,7 @@ except ImportError:
 # API keys: paste yours here. Leave a value as "" to use .env instead.
 # Do NOT share this file with your key in it.
 # ---------------------------------------------------------------------------
-LLM_PROVIDER = "anthropic"          # "anthropic" or "openai" ("" = whichever key is set)
+LLM_PROVIDER = "openai"          # "anthropic" or "openai" ("" = whichever key is set)
 ANTHROPIC_API_KEY = ""     # your Claude key
 OPENAI_API_KEY = ""        # your OpenAI key
 OPENAI_BASE_URL = ""       # optional: OpenAI-compatible server (Gemini, Ollama)
