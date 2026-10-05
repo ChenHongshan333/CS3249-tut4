@@ -109,22 +109,22 @@ def handle(message, state, history=None):
         log.warning("LLM call failed: %s", e)
         return UNAVAILABLE_MESSAGE
 
-    # ----------------------------------------------------------------------
-    # TODO (Activity 2): route on the LLM's decision and update the state.
-    #
-    #   d = {"action": "...", "updates": {...}, "skipped": [...], "reply": "..."}
-    #
-    #   1. Safety first: if d["action"] == "escalate", set a risk flag and
-    #      return the fixed CRISIS_MESSAGE instead of the generated reply.
-    #   2. Save d["updates"] into your state slots.
-    #   3. Mark each item in d["skipped"] as declined (e.g. DECLINED).
-    #   4. Recompute state["current_step"] with next_step(state).
-    #   5. Save d["action"] in state["last_action"] so the page shows it.
-    #
-    # Right now the decision is ignored: the state never changes and the
-    # LLM's reply is sent as it is.
-    # ----------------------------------------------------------------------
-    reply = d["reply"] or "Sorry, could you say that again?"
+    if d["action"] == "escalate":
+        state["risk_flag"] = True
+        return CRISIS_MESSAGE
+
+    state.update(d["updates"])
+    for step in d["skipped"]:
+        state[step] = DECLINED
+        if step not in state["skipped"]:
+            state["skipped"].append(step)
+
+    state["current_step"] = next_step(state)
+    state["last_action"] = d["action"]
+    reply = d["reply"] or (
+        DONE_MESSAGE if state["current_step"] == "done"
+        else QUESTIONS[state["current_step"]]
+    )
 
     # Remember the turn so the LLM sees the conversation so far.
     history.append({"role": "user", "content": messages[-1]["content"]})
