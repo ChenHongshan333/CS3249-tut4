@@ -34,39 +34,45 @@ HISTORY_TURNS = 12          # messages of history sent to the LLM (6 exchanges)
 # Activity 1: conversation state
 # ==========================================================================
 def new_state():
-    """TODO (Activity 1): design the bot's memory for one conversation.
-
-    Return a plain dict (it must stay JSON-serializable). Ideas:
-      - the four slots in STEPS, each starting as None
-      - "current_step": which question is pending
-      - flags such as "risk_flag" and "skipped"
-      - "last_action": what the LLM decided, so the page can show it
-    Until you add fields here, the state panel stays empty and the LLM has
-    to work everything out from the chat history alone.
-    """
-    return {}
+    """Create JSON-serializable memory for a new conversation."""
+    return {
+        **{step: None for step in STEPS},
+        "current_step": STEPS[0],
+        "risk_flag": False,
+        "skipped": [],
+        "last_action": None,
+    }
 
 
 def next_step(state):
-    """TODO (Activity 1): return the first slot in STEPS that is still empty, or "done"."""
-    return None
+    """Return the first unanswered slot in order, or "done"."""
+    for step in STEPS:
+        if state[step] is None:
+            return step
+    return "done"
+
+def turn_message(message, state):
+    """Send the recorded state and latest student message to the LLM."""
+    skipped = [step for step in STEPS if step in state["skipped"]]
+    collected = {
+        step: state[step] for step in STEPS
+        if state[step] is not None and step not in skipped
+    }
+    missing = [
+        step for step in STEPS
+        if state[step] is None and step not in skipped
+    ]
+    return TURN_TEMPLATE.format(
+        collected=json.dumps(collected, ensure_ascii=False),
+        missing=json.dumps(missing, ensure_ascii=False),
+        skipped=json.dumps(skipped, ensure_ascii=False),
+        message=message,
+    )
+
 
 # ==========================================================================
 # Activity 2: the LLM decides the action; the code validates and applies it
 # ==========================================================================
-def turn_message(message, state):
-    """The user turn sent to the LLM.
-
-    TODO (Activity 1): once your state holds the slots, send them to the LLM
-    with TURN_TEMPLATE (collected / missing / declined), so it no longer has
-    to guess from the history.
-    """
-    return (
-        "Conversation state: not tracked by the program yet. Work out what is "
-        "collected and what is missing from the conversation so far.\n\n"
-        f'Student message: """{message}"""'
-    )
-
 def validate(raw):
     """Never trust the LLM blindly: keep only known actions, item names and sizes."""
     action = raw.get("action") if raw.get("action") in ACTIONS else "other"

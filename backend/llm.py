@@ -20,9 +20,9 @@ except ImportError:
 # ---------------------------------------------------------------------------
 LLM_PROVIDER = "openai"          # "anthropic" or "openai" ("" = whichever key is set)
 ANTHROPIC_API_KEY = ""     # your Claude key
-OPENAI_API_KEY = ""        # your OpenAI key
-OPENAI_BASE_URL = ""       # optional: OpenAI-compatible server (Gemini, Ollama)
-LLM_MODEL = ""             # optional: override the default model
+OPENAI_API_KEY = "clsk_pkOXJmJj_FC-6eRnP7oYJyy1zV_kdNC2ynVZXaS3p1ilnUFf-fdY"        # your OpenAI key
+OPENAI_BASE_URL = "https://soclaas-api.comp.nus.edu.sg/v1"       # optional: OpenAI-compatible server (Gemini, Ollama)
+LLM_MODEL = "default"             # optional: override the default model
 
 DEFAULT_MODELS = {
     "anthropic": "claude-haiku-4-5-20251001",
